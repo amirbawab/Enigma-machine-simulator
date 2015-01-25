@@ -1,6 +1,11 @@
-Enigma Machine
+Enigma Machine 2.0
 ===============
 
+####What's New:
+- Import and export `txt` files (File > Import\|Export)
+- Keyboard mode (Display > Keyboard)
+
+####The Enigma Machine:
 The Enigma machine is a piece of spook hardware invented by a German and used by Britain's codebreakers as a way of deciphering German signals traffic during World War Two. It has been claimed that as a result of the information gained through this device, hostilities between Germany and the Allied forces were curtailed by two years.<br>
 <a href="http://www.bbc.co.uk/history/topics/enigma">BBC - History</a><br/>
 
@@ -35,4 +40,10 @@ EYGHG AIAJV
 ####B - Using the graphical user interface
 
 #####GUIDriver.java
-<img src="https://raw.githubusercontent.com/amirbawab/Enigma/master/screenshot/gui.png?token=AF-EkluaC14tnOjONm8g8r7BdKif20Ukks5Ux_KewA%3D%3D"/>
+
+###Display > Text box
+<img src="https://raw.githubusercontent.com/amirbawab/Enigma-machine-simulator/master/screenshot/textbox.png"/>
+<br/>
+###Display > Keyboard
+<img src="https://raw.githubusercontent.com/amirbawab/Enigma-machine-simulator/master/screenshot/keyboard.png"/>
+
