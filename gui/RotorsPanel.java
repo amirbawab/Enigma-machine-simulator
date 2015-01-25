@@ -1,12 +1,13 @@
 /**
 * Enigma Machine GUI
 * Coded by Amir El Bawab
-* Date: 20 January 2015
+* Date: 25 January 2015
 * License: MIT License ~ Please read License.txt for more information about the usage of this software
 * */
 
 package gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -15,12 +16,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
 import enigma.Enigma;
 import gui.listener.RotorListener;
@@ -57,8 +61,31 @@ public class RotorsPanel extends JPanel{
 	private String[] ENIGMA_REFLECTORS = {Enigma.A, Enigma.B, Enigma.C}; 
 	
 	private RotorListener rotorListener;
-	
 	private Enigma enigma;
+	
+	private JLabel rLabels[] = {
+			new JLabel("Type: "),
+			new JLabel("Type: "),
+			new JLabel("Start: "),
+			new JLabel("Ring: "),
+			new JLabel("Type: "),
+			new JLabel("Start: "),
+			new JLabel("Ring: "),
+			new JLabel("Type: "),
+			new JLabel("Start: "),
+			new JLabel("Ring: "),
+			new JLabel("L"),
+			new JLabel("C"),
+			new JLabel("R")
+	};
+	
+	private TitledBorder titleBorders[] = {
+			BorderFactory.createTitledBorder("Reflector"),
+			BorderFactory.createTitledBorder("Left Rotor"),
+			BorderFactory.createTitledBorder("Center Rotor"),
+			BorderFactory.createTitledBorder("Right Rotor"),
+			BorderFactory.createTitledBorder("State")
+	};
 	
 	public RotorsPanel() {
 		
@@ -140,25 +167,24 @@ public class RotorsPanel extends JPanel{
 		rightRotorRingBox = new JComboBox(rotorBoxLetterOption);
 		rightRotorRingBox.setSelectedIndex(0);
 		
-		// Create apply button
-		applyBtn = new JButton("Plug & Apply!");
+		// Create save button
+		applyBtn = new JButton("SAVE", new ImageIcon(getClass().getResource("images/save.png")));
+		applyBtn.setBorderPainted(false); 
+        applyBtn.setContentAreaFilled(false); 
+        applyBtn.setFocusPainted(false); 
+        applyBtn.setOpaque(false);
+		applyBtn.setHorizontalTextPosition(SwingConstants.CENTER);
+		applyBtn.setForeground(Color.white);
+		applyBtn.setPreferredSize(new Dimension(86, 50));
+		applyBtn.setPressedIcon(new ImageIcon(getClass().getResource("images/save_clicked.png")));
 		
 		// Adding borders to panels
 		Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
-		Border innerBorder = BorderFactory.createTitledBorder("Reflector");
-		reflectorPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
-		
-		innerBorder = BorderFactory.createTitledBorder("Left Rotor");
-		leftRotorPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
-		
-		innerBorder = BorderFactory.createTitledBorder("Center Rotor");
-		centerRotorPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
-		
-		innerBorder = BorderFactory.createTitledBorder("Right Rotor");
-		rightRotorPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
-		
-		innerBorder = BorderFactory.createTitledBorder("Sate");
-		stateRotorPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
+		reflectorPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, titleBorders[0]));
+		leftRotorPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, titleBorders[1]));
+		centerRotorPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, titleBorders[2]));
+		rightRotorPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, titleBorders[3]));
+		stateRotorPanel.setBorder(BorderFactory.createCompoundBorder(outerBorder, titleBorders[4]));
 		
 		// Default grid configuration
 		gc = new GridBagConstraints();
@@ -171,63 +197,63 @@ public class RotorsPanel extends JPanel{
 		
 		// Add ReflectorBox
 		gridPosition(0, y);
-		reflectorPanel.add(new JLabel("Type: "),gc);
+		reflectorPanel.add(rLabels[0],gc);
 		gridPosition(0, y+1);
 		reflectorPanel.add(reflectorBox, gc);
 		
 		// Add LeftRotorBox
 		gridPosition(0, y);
-		leftRotorPanel.add(new JLabel("Type: "),gc);
+		leftRotorPanel.add(rLabels[1],gc);
 		gridPosition(0, y+1);
 		leftRotorPanel.add(leftRotorBox, gc);
 		gridPosition(1, y);
-		leftRotorPanel.add(new JLabel("Start: "),gc);
+		leftRotorPanel.add(rLabels[2],gc);
 		gridPosition(1, y+1);
 		leftRotorPanel.add(leftRotorStartBox, gc);
 		gridPosition(2, y);
-		leftRotorPanel.add(new JLabel("Ring: "),gc);
+		leftRotorPanel.add(rLabels[3],gc);
 		gridPosition(2, y+1);
 		leftRotorPanel.add(leftRotorRingBox, gc);
 		
 		// Add CenterRotorBox
 		gridPosition(0, y);
-		centerRotorPanel.add(new JLabel("Type: "),gc);
+		centerRotorPanel.add(rLabels[4],gc);
 		gridPosition(0, y+1);
 		centerRotorPanel.add(centerRotorBox, gc);
 		gridPosition(1, y);
-		centerRotorPanel.add(new JLabel("Start: "),gc);
+		centerRotorPanel.add(rLabels[5],gc);
 		gridPosition(1, y+1);
 		centerRotorPanel.add(centerRotorStartBox, gc);
 		gridPosition(2, y);
-		centerRotorPanel.add(new JLabel("Ring: "),gc);
+		centerRotorPanel.add(rLabels[6],gc);
 		gridPosition(2, y+1);
 		centerRotorPanel.add(centerRotorRingBox, gc);
 		
 		// Add CenterRotorBox
 		gridPosition(0, y);
-		rightRotorPanel.add(new JLabel("Type: "),gc);
+		rightRotorPanel.add(rLabels[7],gc);
 		gridPosition(0, y+1);
 		rightRotorPanel.add(rightRotorBox, gc);
 		gridPosition(1, y);
-		rightRotorPanel.add(new JLabel("Start: "),gc);
+		rightRotorPanel.add(rLabels[8],gc);
 		gridPosition(1, y+1);
 		rightRotorPanel.add(rightRotorStartBox, gc);
 		gridPosition(2, y);
-		rightRotorPanel.add(new JLabel("Ring: "),gc);
+		rightRotorPanel.add(rLabels[9],gc);
 		gridPosition(2, y+1);
 		rightRotorPanel.add(rightRotorRingBox, gc);
 		
 		// Add CenterRotorBox
 		gridPosition(0, y);
-		stateRotorPanel.add(new JLabel("L"),gc);
+		stateRotorPanel.add(rLabels[10],gc);
 		gridPosition(0, y+1);
 		stateRotorPanel.add(leftState, gc);
 		gridPosition(1, y);
-		stateRotorPanel.add(new JLabel("C"),gc);
+		stateRotorPanel.add(rLabels[11],gc);
 		gridPosition(1, y+1);
 		stateRotorPanel.add(centerState, gc);
 		gridPosition(2, y);
-		stateRotorPanel.add(new JLabel("R"),gc);
+		stateRotorPanel.add(rLabels[12],gc);
 		gridPosition(2, y+1);
 		stateRotorPanel.add(rightState, gc);
 		
@@ -254,6 +280,13 @@ public class RotorsPanel extends JPanel{
 				rightState.setText( enigma.getRightRotor().getRotorHead() + "");
 			}
 		});
+		
+		// Remove panels background
+		reflectorPanel.setOpaque(false);
+		leftRotorPanel.setOpaque(false);
+		centerRotorPanel.setOpaque(false);
+		rightRotorPanel.setOpaque(false);
+		stateRotorPanel.setOpaque(false);
 		
 		// Set size
 		setPreferredSize(new Dimension(100,100));
@@ -295,5 +328,27 @@ public class RotorsPanel extends JPanel{
 	private void gridPosition(int x, int y) {
 		gc.gridx = x;
 		gc.gridy = y;
+	}
+	
+	/**
+	 * Dark theme
+	 */
+	public void darkTheme(){
+		setBackground(Color.DARK_GRAY);
+		for(int i=0; i<rLabels.length; i++)
+			rLabels[i].setForeground(Color.WHITE);
+		for(int i=0; i<titleBorders.length; i++)
+			titleBorders[i].setTitleColor(Color.WHITE);
+	}
+	
+	/**
+	 * Light theme
+	 */
+	public void lightTheme(){
+		setBackground(null);
+		for(int i=0; i<rLabels.length; i++)
+			rLabels[i].setForeground(null);
+		for(int i=0; i<titleBorders.length; i++)
+			titleBorders[i].setTitleColor(null);
 	}
 }

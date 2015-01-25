@@ -1,7 +1,7 @@
 /**
 * Enigma Machine GUI
 * Coded by Amir El Bawab
-* Date: 20 January 2015
+* Date: 25 January 2015
 * License: MIT License ~ Please read License.txt for more information about the usage of this software
 * */
 
@@ -13,6 +13,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -21,6 +22,7 @@ import javax.swing.text.DocumentFilter;
 public class PlugboardPanel extends JPanel{
 	
 	private JTextField pbField;
+	private TitledBorder innerBorder;
 	
 	public PlugboardPanel() {
 		
@@ -30,7 +32,7 @@ public class PlugboardPanel extends JPanel{
 		
 		// Adding border
 		Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
-		Border innerBorder = BorderFactory.createTitledBorder("Plugboard (e.g. AB CD) - Press Plug & Apply!");
+		innerBorder = BorderFactory.createTitledBorder("Plugboard (e.g. AB CD) - Press \"SAVE\"");
 		setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
 		
 		// Add component
@@ -53,5 +55,21 @@ public class PlugboardPanel extends JPanel{
 	 */
 	public String getPlugboard(){
 		return pbField.getText();
+	}
+	
+	/**
+	 * Dark theme
+	 */
+	public void darkTheme(){
+		setBackground(Color.DARK_GRAY);
+		innerBorder.setTitleColor(Color.WHITE);
+	}
+	
+	/**
+	 * Light theme
+	 */
+	public void lightTheme(){
+		setBackground(null);
+		innerBorder.setTitleColor(null);
 	}
 }
