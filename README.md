@@ -1,9 +1,9 @@
-Enigma Machine 2.0
+Enigma Machine 3.0
 ===============
 
 ####What's New:
-- Import and export `txt` files (File > Import\|Export)
-- Keyboard mode (Display > Keyboard)
+- Restart and Exit from menu (File > Restart/Exit)
+- Wires connection mode (Display > Wires connection)
 
 ####The Enigma Machine:
 The Enigma machine is a piece of spook hardware invented by a German and used by Britain's codebreakers as a way of deciphering German signals traffic during World War Two. It has been claimed that as a result of the information gained through this device, hostilities between Germany and the Allied forces were curtailed by two years.<br>
@@ -46,4 +46,6 @@ EYGHG AIAJV
 <br/>
 ###Display > Keyboard
 <img src="https://raw.githubusercontent.com/amirbawab/Enigma-machine-simulator/master/screenshot/keyboard.png"/>
-
+<br/>
+###Display > Wires connection
+<img src="https://raw.githubusercontent.com/amirbawab/Enigma-machine-simulator/master/screenshot/wires.png"/>
