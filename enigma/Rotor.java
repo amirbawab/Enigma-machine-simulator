@@ -113,6 +113,22 @@ public class Rotor {
 	}
 	
 	/**
+	 * Get an out wire connection (Used in GUI)
+	 * @return rotorOut
+	 */
+	public int getAnOutWire(int pos){
+		return getOutputOf(pos);
+	}
+	
+	/**
+	 * Get an in wire connection (Used in GUI)
+	 * @return rotorOut
+	 */
+	public int getAnInWire(int pos){
+		return getInputOf(pos);
+	}
+	
+	/**
 	 * Reset rotor
 	 */
 	public void reset(){

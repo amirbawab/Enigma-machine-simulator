@@ -198,6 +198,15 @@ public class Enigma {
 	}
 	
 	/**
+	 * Get the linked char to `a`
+	 * @param a
+	 * @return int
+	 */
+	public int getPlugboardOf(int a){
+		return this.plugboard[a];
+	}
+	
+	/**
 	 * Reset plugboard
 	 */
 	public void resetPlugboard(){

@@ -73,19 +73,26 @@ public class EnigmaMenuBar {
 		JMenu file = new JMenu("File");
 		JMenuItem importTxt = new JMenuItem("Import text");
 		JMenuItem exportTxt = new JMenuItem("Export text");
+		JMenuItem restart = new JMenuItem("Restart");
+		JMenuItem exit = new JMenuItem("Exit");
 		file.add(importTxt);
 		file.add(exportTxt);
+		file.add(restart);
+		file.add(exit);
 		
 		// View
 		JMenu display = new JMenu("Display");
 		ButtonGroup displayGroup = new ButtonGroup();
-		JRadioButtonMenuItem keyboard = new JRadioButtonMenuItem("Keyboard");
 		JRadioButtonMenuItem textBox = new JRadioButtonMenuItem("Text box");
+		JRadioButtonMenuItem keyboard = new JRadioButtonMenuItem("Keyboard");
+		JRadioButtonMenuItem wiresConnection = new JRadioButtonMenuItem("Wires connection");
 		textBox.setSelected(true);
-		displayGroup.add(keyboard);
 		displayGroup.add(textBox);
-		display.add(keyboard);
+		displayGroup.add(keyboard);
+		displayGroup.add(wiresConnection);
 		display.add(textBox);
+		display.add(keyboard);
+		display.add(wiresConnection);
 		
 		// Add Menu to MenuBar
 		menuBar.add(file);
@@ -101,6 +108,24 @@ public class EnigmaMenuBar {
 		textBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				emlistener.textBoxDisplay();
+			}
+		});
+		
+		wiresConnection.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				emlistener.wiresConnectionDisplay();
+			}
+		});
+		
+		restart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				emlistener.restart();
+			}
+		});
+		
+		exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(1);
 			}
 		});
 		
@@ -151,8 +176,14 @@ public class EnigmaMenuBar {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				// Check if empty output
-				if(emlistener.exportFile().isEmpty()){
+				String text = emlistener.exportFile();
+				if(text.isEmpty()){
 					JOptionPane.showMessageDialog(frame, "You can't export an empty output");
+					return;
+				
+				// Wires mode
+				} else if(text.equals("-1")){
+					JOptionPane.showMessageDialog(frame, "You can't export a text in this display");
 					return;
 				}
 				

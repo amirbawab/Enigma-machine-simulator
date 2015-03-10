@@ -29,6 +29,14 @@ public class Reflector {
 	}
 	
 	/**
+	 * Get an out wires
+	 * @return rotorOut
+	 */
+	public int getAnOutWire(int pos){
+		return (rotorOut[pos] + pos ) % 26;
+	}
+	
+	/**
 	 * Set the reflector
 	 * @param reflector
 	 */

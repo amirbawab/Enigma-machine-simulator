@@ -12,4 +12,6 @@ public interface EnigmaMenuListener {
 	public String exportFile();
 	public void keyboardDisplay();
 	public void textBoxDisplay();
+	public void wiresConnectionDisplay();
+	public void restart();
 }
