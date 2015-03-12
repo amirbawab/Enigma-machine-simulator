@@ -9,6 +9,11 @@ Enigma Machine 3.0
 The Enigma machine is a piece of spook hardware invented by a German and used by Britain's codebreakers as a way of deciphering German signals traffic during World War Two. It has been claimed that as a result of the information gained through this device, hostilities between Germany and the Allied forces were curtailed by two years.<br>
 <a href="http://www.bbc.co.uk/history/topics/enigma">BBC - History</a><br/>
 
+####Quick link to the Enigma Machine 3.0 GUI (Scroll down for screenshots)
+<a href="https://github.com/amirbawab/Enigma-machine-simulator/blob/master/Runnable%20JAR/Enigma%20Machine.jar?raw=true">Enigma Machine 3.0 (GUI)</a>
+
+Note: This `jar` file is the same as the one in the `Runnable JAR` folder
+
 ##How to use the enigma machine
 
 ####A - Using the console
