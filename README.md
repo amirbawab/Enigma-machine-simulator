@@ -13,7 +13,7 @@ The Enigma machine is a piece of spook hardware invented by a German and used by
 <a href="http://www.bbc.co.uk/history/topics/enigma">BBC - History</a><br/>
 
 ####Quick link to the Enigma Machine 3.0 GUI (Scroll down for screenshots)
-<a href="https://github.com/amirbawab/Enigma-machine-simulator/blob/master/Runnable%20JAR/Enigma%20Machine.jar?raw=true">Enigma Machine 3.0 (GUI)</a>
+<a href="https://github.com/amirbawab/Enigma-machine-simulator/blob/master/Runnable%20JAR/Enigma%20Machine.jar?raw=true">Enigma Machine 3.1 (GUI)</a>
 
 Note: This `jar` file is the same as the one in the `Runnable JAR` folder
 
