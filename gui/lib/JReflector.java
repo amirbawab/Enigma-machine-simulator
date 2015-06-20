@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.RenderingHints;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -114,6 +115,10 @@ public class JReflector extends JPanel{
 
 	        	// Config the design and thickness
 	        	Graphics2D g2 = (Graphics2D) g;
+	        	
+	        	// Better quality
+	        	g2.setRenderingHint ( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+	    		
 	        	if(thickOutLine == i || thickOutLine == connection[i][0]){
 	        		g2.setStroke(new BasicStroke(3));
 	        		g2.setColor(Color.BLACK);

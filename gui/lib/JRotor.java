@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.RenderingHints;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -83,8 +84,14 @@ public class JRotor extends JPanel{
 	 * Put border around the rotor head
 	 */
 	public void paintComponent(Graphics g) {
-		g.setColor(Color.GRAY);
-    	g.drawRect(1, 0, dim.width-6, 17);
+		
+		Graphics2D g2 = (Graphics2D) g;
+		
+		// Better quality
+    	g2.setRenderingHint ( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+		
+    	g2.setColor(Color.GRAY);
+    	g2.drawRect(1, 0, dim.width-6, 17);
     }
 	
 	/**
@@ -134,6 +141,10 @@ public class JRotor extends JPanel{
 		public void paintComponent(Graphics g) {
 	        for(int i=0; i<connection.length; i++){
 	        	Graphics2D g2 = (Graphics2D) g;
+	        	
+	        	// Better quality
+	        	g2.setRenderingHint ( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+	    		
 	        	if(thickInLine == i || thickOutLine == i){
 	        		g2.setStroke(new BasicStroke(3));
 	        		g2.setColor(Color.BLACK);

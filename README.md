@@ -1,7 +1,10 @@
-Enigma Machine 3.0
+Enigma Machine 3.1
 ===============
 
-####What's New:
+####What's New in 3.1:
+- Enhanced the quality of lines in wires mode
+
+####What's New in 3.0:
 - Restart and Exit from menu (File > Restart/Exit)
 - Wires connection mode (Display > Wires connection)
 

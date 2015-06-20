@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.RenderingHints;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -110,11 +111,6 @@ public class JStatic extends JPanel{
 		setThickOutLine(-1);
 	}
 	
-	
-	
-	
-	
-	
 	private class DrawingLine extends JPanel {
 		private int[][] connection;
 		private int width;
@@ -136,6 +132,10 @@ public class JStatic extends JPanel{
 		public void paintComponent(Graphics g) {
 	        for(int i=0; i<connection.length; i++){
 	        	Graphics2D g2 = (Graphics2D) g;
+	        	
+	        	// Better quality
+	        	g2.setRenderingHint ( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+	    		
 	        	if(thickInLine == i || thickOutLine == i){
 	        		g2.setStroke(new BasicStroke(3));
 	        		g2.setColor(Color.BLACK);
