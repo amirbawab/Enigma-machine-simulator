@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-Implementation-Title: Enigma-machine-simulator
-Implementation-Version: 4.0
-Main-Class: ConsoleDriver
-
