@@ -14,9 +14,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ReflectorsJson {
 	
 	@JsonProperty("reflectors")
-    public List<ReflectorJson> rotors;
+    public List<ReflectorJson> reflectors;
 	
-	public class ReflectorJson {
+	public static class ReflectorJson {
 		
 		@JsonProperty("name")
 	    public String name;

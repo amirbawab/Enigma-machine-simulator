@@ -7,7 +7,9 @@
 
 package enigma;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import enigma.components.Reflector;
 import enigma.components.Rotor;
@@ -19,7 +21,6 @@ public class Enigma {
 	private Rotor rightRotor;
 	private Rotor centerRotor;
 	private Rotor leftRotor;
-	private Reflector reflector;
 	private int[] plugboard;
 	
 	// Available rotors to choose from
@@ -37,10 +38,19 @@ public class Enigma {
 	
 	
 	// Create configuration
-	Config config = new Config();
+	private Config config = new Config();
 	
 	// Rotors mapper
-	HashMap<String, Rotor> rotors;
+	private HashMap<String, Rotor> rotors;
+	
+	// Reflectors mapper
+	private HashMap<String, Reflector> reflectors;
+	
+	// List of rotors
+	private List<Rotor> rotorsList = new ArrayList<>();
+	
+	// Reflector
+	private Reflector reflector;
 	
 	/**
 	 * Construct the machine
@@ -53,6 +63,9 @@ public class Enigma {
 		
 		// Load rotors
 		rotors = config.loadRotors();
+		
+		// Load reflectors
+		reflectors = config.loadReflectors();
 		
 		// Check for correct rotor
 		if(!correctRotor(left) || !correctRotor(center) || !correctRotor(right))
