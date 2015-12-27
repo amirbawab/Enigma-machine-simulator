@@ -1,0 +1,42 @@
+apply plugin: 'java'
+apply plugin:'application'
+apply plugin: 'eclipse'
+
+mainClassName = "ConsoleDriver"
+version = 4.0
+
+repositories {
+    mavenCentral()
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+            output.classesDir = 'build/classes/main'
+        }
+        resources {
+            srcDir 'src/main/resources'
+            output.resourcesDir = 'build/resources/main'
+        }
+    }
+}
+
+archivesBaseName = project.name
+
+jar{
+    description 'Export application to jar'
+    manifest {
+        attributes  'Implementation-Title': project.name,
+                    'Implementation-Version': version,
+                    'Main-Class': mainClassName
+    }
+    from sourceSets.main.runtimeClasspath
+    from configurations.compile.collect { zipTree it }
+}
