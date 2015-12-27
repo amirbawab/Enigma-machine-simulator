@@ -1,0 +1,39 @@
+{
+	"rotors": [
+		{
+			"name": "I",
+			"date": "1930",
+			"model": "Enigma I",
+			"map": "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
+			"notch": "Q"
+		},
+		{
+			"name": "II",
+			"date": "1930",
+			"model": "Enigma I",
+			"map": "AJDKSIRUXBLHWTMCQGZNPYFVOE",
+			"notch": "E"
+		},
+		{
+			"name": "III",
+			"date": "1930",
+			"model": "Enigma I",
+			"map": "BDFHJLCPRTXVZNYEIWGAKMUSQO",
+			"notch": "V"
+		},
+		{
+			"name": "IV",
+			"date": "December 1938",
+			"model": "M3 Army",
+			"map": "ESOVPZJAYQUIRHXLNFTGKDCMWB",
+			"notch": "J"
+		},
+		{
+			"name": "V",
+			"date": "December 1938",
+			"model": "M3 Army",
+			"map": "VZBRGITYUPSDNHLXAWMJQOFECK",
+			"notch": "Z"
+		}
+	]
+}

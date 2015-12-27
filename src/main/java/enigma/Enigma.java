@@ -7,8 +7,11 @@
 
 package enigma;
 
+import java.util.HashMap;
+
 import enigma.components.Reflector;
 import enigma.components.Rotor;
+import enigma.config.Config;
 
 public class Enigma {
 	
@@ -31,6 +34,14 @@ public class Enigma {
 	public static final String B = "YRUHQSLDPXNGOKMIEBFZCWVJAT";
 	public static final String C = "FVPJIAOYEDRZXWGCTKUQSBNMHL";
 	
+	
+	
+	// Create configuration
+	Config config = new Config();
+	
+	// Rotors mapper
+	HashMap<String, Rotor> rotors;
+	
 	/**
 	 * Construct the machine
 	 * @param left
@@ -39,6 +50,9 @@ public class Enigma {
 	 * @param ref
 	 */
 	public Enigma(String[] left,String[] center,String[] right,String ref){
+		
+		// Load rotors
+		rotors = config.loadRotors();
 		
 		// Check for correct rotor
 		if(!correctRotor(left) || !correctRotor(center) || !correctRotor(right))
