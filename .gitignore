@@ -5,3 +5,5 @@
 build/
 .setting
 .gradle
+/bin/
+.settings

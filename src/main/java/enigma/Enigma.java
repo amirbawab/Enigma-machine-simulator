@@ -6,6 +6,10 @@
 * */
 
 package enigma;
+
+import enigma.components.Reflector;
+import enigma.components.Rotor;
+
 public class Enigma {
 	
 	// Machine configuration

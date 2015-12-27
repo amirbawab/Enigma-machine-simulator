@@ -5,7 +5,7 @@
 * License: MIT License ~ Please read License.txt for more information about the usage of this software
 * */
 
-package enigma;
+package enigma.components;
 public class Reflector {
 	
 	// Reflector wires, arrays will store the jump distance to get to the end of the wire
@@ -15,7 +15,7 @@ public class Reflector {
 	 * Construct the reflector
 	 * @param reflector
 	 */
-	protected Reflector(String reflector){
+	public Reflector(String reflector){
 		setReflector(reflector);
 	}
 	
@@ -24,7 +24,7 @@ public class Reflector {
 	 * @param pos
 	 * @return index
 	 */
-	protected int getOutputOf(int pos){
+	public int getOutputOf(int pos){
 		return (pos + rotorOut[pos]) % 26;
 	}
 	

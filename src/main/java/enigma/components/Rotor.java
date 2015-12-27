@@ -1,3 +1,5 @@
+package enigma.components;
+
 /**
 * Enigma Machine
 * Coded by Amir El Bawab
@@ -5,7 +7,6 @@
 * License: MIT License ~ Please read License.txt for more information about the usage of this software
 * */
 
-package enigma;
 public class Rotor {
 	
 	// Rotor wires, arrays will store the jump distance to get to the end of the wire
@@ -21,7 +22,7 @@ public class Rotor {
 	 * @param rotor
 	 * @param notch
 	 */
-	protected Rotor(String rotor,char notch){
+	public Rotor(String rotor,char notch){
 		setRotor(new String[]{rotor, notch+""});
 	}
 
@@ -30,7 +31,7 @@ public class Rotor {
 	 * @param pos
 	 * @return index
 	 */
-	protected int getOutputOf(int pos){
+	public int getOutputOf(int pos){
 		int rotorRingDiff = rotorHead >= ringHead ? rotorHead - ringHead : 26 - ringHead + rotorHead;
 		return (pos + rotorOut[ (pos + rotate + rotorRingDiff) % 26]) % 26; // Pos + Jump to mirror with the next rotor
 	}
@@ -40,7 +41,7 @@ public class Rotor {
 	 * @param pos
 	 * @return index
 	 */
-	protected int getInputOf(int pos){
+	public int getInputOf(int pos){
 		int rotorRingDiff = rotorHead >= ringHead ? rotorHead - ringHead : 26 - ringHead + rotorHead;
 		int posJump = pos - rotorIn[ (pos + rotate + rotorRingDiff) % 26];
 		return posJump > 0 ? (posJump % 26) : ( 26 + posJump) % 26; // Pos - Jump to mirror with the next rotor
@@ -73,7 +74,7 @@ public class Rotor {
 	/**
 	 * Rotate the rotor
 	 */
-	protected void rotate(){
+	public void rotate(){
 		rotate = (rotate + 1) % 26;
 	}
 	
