@@ -1,0 +1,78 @@
+{
+	"machines": [
+		{
+			"name": "I",
+			"date": "1932",
+			"type": "number",
+			"rotors": [
+				{
+					"position": 3,
+					"double_step": false,
+					"name": ["I", "II", "III", "IV", "V"]
+				},
+				{
+					"position": 2,
+					"double_step": true,
+					"name": ["I", "II", "III", "IV", "V"]
+				},
+				{
+					"position": 1,
+					"double_step": false,
+					"name": ["I", "II", "III", "IV", "V"]
+				}
+			],
+			"reflectors": ["A", "B", "C"]
+		},
+		{
+			"name": "M3",
+			"date": "1940",
+			"type": "letter",
+			"rotors": [
+				{
+					"position": 3,
+					"double_step": false,
+					"name": ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"]
+				},
+				{
+					"position": 2,
+					"double_step": true,
+					"name": ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"]
+				},
+				{
+					"position": 1,
+					"double_step": false,
+					"name": ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"]
+				}
+			],
+			"reflectors": ["B", "C"]
+		},
+		{
+			"name": "M4",
+			"date": "1941",
+			"type": "letter",
+			"rotors": [
+				{
+					"position": 4,
+					"double_step": false,
+					"name": ["Beta", "Gamma"]
+				},
+				{
+					"position": 3,
+					"double_step": false,
+					"name": ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"]
+				},
+				{
+					"position": 2,
+					"double_step": true,
+					"name": ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"]
+				},
+				{
+					"position": 1,
+					"double_step": false,
+					"name": ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"]
+				}
+			],
+			"reflectors": ["B Thin", "C Thin"]
+		}
+	]
+}

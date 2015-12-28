@@ -11,11 +11,15 @@ public class Reflector {
 	// Reflector wires, arrays will store the jump distance to get to the end of the wire
 	private int rotorOut[] = new int[26];
 	
+	// Reflector name
+	private String name;
+	
 	/**
 	 * Construct the reflector
 	 * @param reflector
 	 */
-	public Reflector(String reflector){
+	public Reflector(String name, String reflector){
+		this.name = name;
 		setReflector(reflector);
 	}
 	
@@ -34,6 +38,14 @@ public class Reflector {
 	 */
 	public int getAnOutWire(int pos){
 		return (rotorOut[pos] + pos ) % 26;
+	}
+	
+	/**
+	 * Get reflector name
+	 * @return name
+	 */
+	public String getName() {
+		return this.name;
 	}
 	
 	/**

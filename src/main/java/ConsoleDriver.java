@@ -1,8 +1,7 @@
-
 /**
 * Enigma Machine
 * Coded by Amir El Bawab
-* Date: 20 January 2015
+* Date: 27 December 2015
 * License: MIT License ~ Please read License.txt for more information about the usage of this software
 * */
 
@@ -12,19 +11,24 @@ public class ConsoleDriver {
 	public static void main(String[] args) {
 		
 		// Create machine
-		Enigma enigma = new Enigma(Enigma.I, Enigma.II, Enigma.III, Enigma.B);
+		Enigma enigma = new Enigma("I");
+		
+		enigma.installRotorAtPosition("III", 1);
+		enigma.installRotorAtPosition("II", 2);
+		enigma.installRotorAtPosition("I", 3);
+
+		enigma.installReflector("B");
 		
 		// Configure rotors
-		enigma.getLeftRotor().setRotorHead('A');
-		enigma.getCenterRotor().setRotorHead('B');
-		enigma.getRightRotor().setRotorHead('C');
+		enigma.getRotorAtPosition(1).setRotorHead('A');
+		enigma.getRotorAtPosition(2).setRotorHead('B');
+		enigma.getRotorAtPosition(3).setRotorHead('C');
 		
 		// Configure rings
-		enigma.getLeftRotor().setRingHead('D');
-		enigma.getCenterRotor().setRingHead('E');
-		enigma.getRightRotor().setRingHead('F');
+		enigma.getRotorAtPosition(1).setRingHead('D');
+		enigma.getRotorAtPosition(2).setRingHead('E');
+		enigma.getRotorAtPosition(3).setRingHead('F');
 		
-		System.out.println(enigma.type("HELLO WORLD"));
-		
+		System.out.println(enigma.type("AMIR BAWAB"));
 	}
 }

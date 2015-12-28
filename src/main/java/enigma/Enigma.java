@@ -1,109 +1,54 @@
 /**
 * Enigma Machine
 * Coded by Amir El Bawab
-* Date: 20 January 2015
+* Date: 27 December 2015
 * License: MIT License ~ Please read License.txt for more information about the usage of this software
 * */
 
 package enigma;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Arrays;
 
-import enigma.components.Reflector;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import enigma.components.Plugboard;
 import enigma.components.Rotor;
-import enigma.config.Config;
+import enigma.config.Loader;
+import enigma.config.Tools;
 
 public class Enigma {
 	
-	// Machine configuration
-	private Rotor rightRotor;
-	private Rotor centerRotor;
-	private Rotor leftRotor;
-	private int[] plugboard;
-	
-	// Available rotors to choose from
-	public static final String[] I = {"EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q"};
-	public static final String[] II = {"AJDKSIRUXBLHWTMCQGZNPYFVOE", "E"};
-	public static final String[] III = {"BDFHJLCPRTXVZNYEIWGAKMUSQO", "V"};
-	public static final String[] IV = {"ESOVPZJAYQUIRHXLNFTGKDCMWB", "J"};
-	public static final String[] V = {"VZBRGITYUPSDNHLXAWMJQOFECK", "Z"};
-	
-	// Available reflectors to choose from
-	public static final String A = "EJMZALYXVBWFCRQUONTSPIKHGD";
-	public static final String B = "YRUHQSLDPXNGOKMIEBFZCWVJAT";
-	public static final String C = "FVPJIAOYEDRZXWGCTKUQSBNMHL";
-	
-	
-	
+	// Logger
+	Logger l = LogManager.getFormatterLogger(this);
+		
 	// Create configuration
-	private Config config = new Config();
+	private Loader loader = new Loader();
 	
-	// Rotors mapper
-	private HashMap<String, Rotor> rotors;
+	// Tools
+	private Tools tools;
 	
-	// Reflectors mapper
-	private HashMap<String, Reflector> reflectors;
+	// Plugboard
+	private Plugboard plugboard;
 	
-	// List of rotors
-	private List<Rotor> rotorsList = new ArrayList<>();
-	
-	// Reflector
-	private Reflector reflector;
+	// Name
+	private String name;
 	
 	/**
 	 * Construct the machine
-	 * @param left
-	 * @param center
-	 * @param right
-	 * @param ref
+	 * @param rotors Rotors names in the array (Should match with the JSON rotors names)
+	 * @param ref Reflect name (Should match with a JSON reflector name)
 	 */
-	public Enigma(String[] left,String[] center,String[] right,String ref){
+	public Enigma(String name){
 		
-		// Load rotors
-		rotors = config.loadRotors();
+		// Store machine name
+		this.name = name;
 		
-		// Load reflectors
-		reflectors = config.loadReflectors();
+		// Load enigma tools
+		tools = loader.loadTools(name);
 		
-		// Check for correct rotor
-		if(!correctRotor(left) || !correctRotor(center) || !correctRotor(right))
-			throw new RuntimeException("Please choose a correct Rotor");
-		
-		// Check for correct reflector
-		if(!correctReflector(ref))
-			throw new RuntimeException("Please choose a correct Reflector");
-		
-		// Assign rotors and reflector
-		this.leftRotor = new Rotor(left[0], left[1].charAt(0));
-		this.centerRotor = new Rotor(center[0], center[1].charAt(0));
-		this.rightRotor = new Rotor(right[0], right[1].charAt(0));
-		this.reflector = new Reflector(ref);
-		
-		// Create plugboard
-		plugboard = new int[26];
-		
-		// Reset plugboard
-		resetPlugboard();
-	}
-	
-	/**
-	 * Check if the chosen Rotor is correct
-	 * @param rotor
-	 * @return boolean
-	 */
-	private boolean correctRotor(String[] rotor){
-		return rotor == I || rotor == II || rotor == III || rotor == IV || rotor == V;
-	}
-	
-	/**
-	 * Check if the chosen Reflector is correct
-	 * @param reflector
-	 * @return boolean
-	 */
-	private boolean correctReflector(String reflector){
-		return reflector == A || reflector == B || reflector == C;
+		// Init plugboard
+		plugboard = new Plugboard();
 	}
 	
 	/**
@@ -137,129 +82,162 @@ public class Enigma {
 	 */
 	private char rotorsEncryption(char inputC){
 		
-		// Rotate Rotor left & center
-		if (centerRotor.getNotch() == centerRotor.getRotorHead()){
-			leftRotor.rotate();
-			centerRotor.rotate();
+		// Check if machine is ready
+		if(!tools.isReady()) {
+			l.error("Enigma is not ready yet, please make sure all rotor and reflector are installed.");
+			return '?';
 		}
-
-		// Rotate Rotor center
-		if (rightRotor.getNotch() == rightRotor.getRotorHead())
-			centerRotor.rotate();
-
-		// Rotate Rotor right
-		rightRotor.rotate();
+		
+		// Store the number of installed rotors
+		int numOfInstalledRotors = tools.getRotorsInstalled().length;
+		
+		// Rotate rotors if they should ...
+		for(int p= numOfInstalledRotors; p > 1; p--) {
+			
+			// Store current rotor
+			Rotor currentRotor = tools.getRotorAtPosition(p);
+			Rotor previousRotor = tools.getRotorAtPosition(p - 1);
+			
+			// If its right rotor head is at a notch, or if (rotor is at a notch and it's not the most left one and its left rotor can rotate), then rotate
+			if(previousRotor.isHeadAtNotch() || (currentRotor.isHeadAtNotch() && tools.doubleStepAtPosition(p))){
+				l.debug("Rotate rotor %s.", currentRotor.getName());
+				currentRotor.rotate();
+			}
+		}
+		
+		// Always rotate rotor at position 1
+		l.debug("Rotate rotor %s.", tools.getRotorAtPosition(1).getName());
+		tools.getRotorAtPosition(1).rotate();
 		
 		// Static wheel
 		int input = inputC - 'A';
 		
-		// Pass by the plugboard
-		if(plugboard[input] != -1)
-			input = plugboard[input];
-
-		// Start processing from the right wheel to left wheel
-		int outOfrightRotor = rightRotor.getOutputOf(input);
-		int outOfcenterRotor = centerRotor.getOutputOf(outOfrightRotor);
-		int outOfleftRotor = leftRotor.getOutputOf(outOfcenterRotor);
-
-		// Enter and exit the reflector
-		int outOfReflector = reflector.getOutputOf(outOfleftRotor);
-
-		// Start processing from left wheel to right wheel
-		int inOfleftRotor = leftRotor.getInputOf(outOfReflector);
-		int inOfcenterRotor = centerRotor.getInputOf(inOfleftRotor);
-		int inOfrightRotor = rightRotor.getInputOf(inOfcenterRotor);
+		// Prepare output
+		int output = input;
 		
 		// Pass by the plugboard
-		if(plugboard[inOfrightRotor] != -1)
-			inOfrightRotor = plugboard[inOfrightRotor];
+		l.debug("======================");
+		l.debug("Plugboard wire RTL from: %c", 'A' + output);
+		if(plugboard.getPlugboardOf(output) != Plugboard.UNPLUGGED)
+			output = plugboard.getPlugboardOf(output);
+		l.debug("To: %c", 'A' + output);
+		l.debug("======================");
+		
+		// Start processing from the right wheel to left wheel
+		for(int p = 1; p <= numOfInstalledRotors; p++){
+			l.debug("======================");
+			l.debug("Rotor wire RTL from: %c", 'A' + output);
+			output = tools.getRotorAtPosition(p).getOutputOf(output);
+			l.debug("To: %c", 'A' + output);
+			l.debug("======================");
+		}
+		
+		// Enter and exit the reflector
+		l.debug("======================");
+		l.debug("Reflector wire from: %c", 'A' + output);
+		output = tools.getReflectorInstalled().getOutputOf(output);
+		l.debug("To: %c", 'A' + output);
+		l.debug("======================");
+		
+		// Start processing from left wheel to right wheel
+		for(int p = numOfInstalledRotors; p >= 1; p--){
+			l.debug("======================");
+			l.debug("Rotor wire LTR from: %c", 'A' + output);
+			output = tools.getRotorAtPosition(p).getInputOf(output);
+			l.debug("To: %c", 'A' + output);
+			l.debug("======================");
+		}
+		
+		// Pass by the plugboard
+		l.debug("======================");
+		l.debug("Plugboard wire LTR from: %c", 'A' + output);
+		if(plugboard.getPlugboardOf(output) != Plugboard.UNPLUGGED)
+			output = plugboard.getPlugboardOf(output);
+		l.debug("To: %c", 'A' + output);
+		l.debug("======================");
 		
 		// Static wheel
-		return (char) (inOfrightRotor + 'A');
+		return (char) (output + 'A');
 	}
 	
 	/**
-	 * Get left rotor
-	 * @return left rotor
+	 * Get rotor at specific position
+	 * @param position 1 to N
+	 * @return rotor or null
 	 */
-	public Rotor getLeftRotor(){
-		return leftRotor;
+	public Rotor getRotorAtPosition(int position) {
+		return tools.getRotorAtPosition(position);
 	}
 	
 	/**
-	 * Get center rotor
-	 * @return left rotor
+	 * Install a rotor from the registered ones
+	 * @return true if installed, otherwise false
 	 */
-	public Rotor getCenterRotor(){
-		return centerRotor;
+	public boolean installRotorAtPosition(String rotorName, int position) {
+		return tools.installRotorAtPosition(rotorName, position);
 	}
 	
 	/**
-	 * Get right rotor
-	 * @return right rotor
+	 * Install a reflector from the registered ones
+	 * @return true if installed, otherwise false
 	 */
-	public Rotor getRightRotor(){
-		return rightRotor;
+	public boolean installReflector(String reflectorName) {
+		return tools.installReflector(reflectorName);
 	}
 	
 	/**
-	 * Get reflector
-	 * @return reflector
+	 * Get machine tools
+	 * Access all tools
+	 * @return tools
 	 */
-	public Reflector getReflector(){
-		return reflector;
+	public Tools getTools() {
+		return tools;
 	}
 	
 	/**
-	 * Set the plug boad
-	 * @param plugboard
-	 */
-	public void insertPlugboardWire(char a, char b){
-		this.plugboard[ a - 'A' ] = b - 'A';
-		this.plugboard[ b - 'A' ] = a - 'A';
-	}
-	
-	/**
-	 * Unset a wire from the plug boad
-	 * @param wire
-	 */
-	public void removePlugboardWire(char a){
-		this.plugboard[ this.plugboard[ a - 'A' ] ] = -1;
-		this.plugboard[ a - 'A' ] = -1;
-	}
-	
-	/**
-	 * Get the linked char to `a`
-	 * @param a
-	 * @return int
-	 */
-	public int getPlugboardOf(int a){
-		return this.plugboard[a];
-	}
-	
-	/**
-	 * Reset plugboard
-	 */
-	public void resetPlugboard(){
-		for (int wire = 0; wire < 26; wire++)
-			this.plugboard[ wire ] = -1;
-	}
-	
-	/**
-	 * Checks if a letter is occupied
-	 * @param c
-	 * @return boolean
-	 */
-	public boolean isPlugged(char c){
-		return plugboard[c - 'A'] != -1;
-	}
-	
-	/**
-	 * Reset machine
+	 * Reset machine rotors
 	 */
 	public void resetRotation(){
-		leftRotor.reset();
-		centerRotor.reset();
-		rightRotor.reset();
+		
+		// Reset all rotors
+		for(int p = 1; p <= tools.getRotorsInstalled().length; p++) {
+			l.info("Resetting Rotor %s at position %d.", tools.getRotorAtPosition(p).getName(), p);
+			tools.getRotorAtPosition(p).reset();
+		}
+	}
+	
+	/**
+	 * Reset rotors and plugboard
+	 */
+	public void resetMachine() {
+		l.info("Started resetting machine configurations.");
+		resetRotation();
+		plugboard.resetPlugboard();
+	}
+	
+	/**
+	 * Print information about the current configuration of the Enigma machine
+	 * @return Information about the Enigma machine
+	 */
+	public String toString() {
+		String output = "";
+		output += "\n====================\n";
+		output += "ENIGMA " + name + "\n";
+		output += "====================\n";
+		for(int p=1; p <= tools.getRotorsInstalled().length; p++){
+			Rotor rotor = tools.getRotorAtPosition(p);
+			output += "Rotors installed at position " + p + ": " + rotor.getName() + "\n";
+			output += "\tHead: " + rotor.getRotorHead() + "\n";
+			output += "\tRing: " + rotor.getRingHead() + "\n";
+		}
+		output += "Rotors available: " + tools.getAvailableRotors() + "\n";
+		output += "====================\n";
+		if(tools.getReflectorInstalled() != null)
+			output += "Reflector installed: " + tools.getReflectorInstalled().getName() + "\n";
+		else
+			output += "No reflector installed!\n";
+		output += "Reflector available: " + tools.getAvailableReflectors() + "\n";
+		output += "====================\n";
+		return output;
 	}
 }

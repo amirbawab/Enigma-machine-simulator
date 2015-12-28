@@ -1,11 +1,13 @@
-package enigma.components;
-
 /**
 * Enigma Machine
 * Coded by Amir El Bawab
-* Date: 20 January 2015
+* Date: 27 December 2015
 * License: MIT License ~ Please read License.txt for more information about the usage of this software
 * */
+
+package enigma.components;
+
+import java.util.List;
 
 public class Rotor {
 	
@@ -14,16 +16,47 @@ public class Rotor {
 	private int rotorIn[] = new int[26];
 	private int rotorHead;
 	private int ringHead;
-	private char notch;
 	private int rotate;
+	private List<Character> notch;
+	private boolean canRotate;
+	
+	// Rotor name
+	private String name;
 	
 	/**
 	 * Construct the rotor
+	 * @param name
 	 * @param rotor
 	 * @param notch
 	 */
-	public Rotor(String rotor,char notch){
-		setRotor(new String[]{rotor, notch+""});
+	public Rotor(String name, String rotor, List<Character> notch, boolean canRotate){
+		this.name = name;
+		this.canRotate = canRotate;
+		setRotor(rotor, notch);
+	}
+	
+	/**
+	 * Get rotor name
+	 * @return name
+	 */
+	public String getName() {
+		return this.name;
+	}
+	
+	/**
+	 * Checks if the rotor can rotate
+	 * @return true if rotor can rotate, otherwise false
+	 */
+	public boolean canRotate() {
+		return this.canRotate;
+	}
+	
+	/**
+	 * Checks if the rotor head is at a notch
+	 * @return true if rotor head is at a notch, otherwise false
+	 */
+	public boolean isHeadAtNotch() {
+		return notch.contains(getRotorHead());
 	}
 
 	/**
@@ -49,10 +82,13 @@ public class Rotor {
 	
 	/**
 	 * Get rotor notch
-	 * @return notch
+	 * @return notch array
 	 */
-	public char getNotch(){
-		return notch;
+	public char[] getNotch(){
+		char[] notchChars = new char[notch.size()];
+		for(int i = 0; i < notch.size(); i++)
+			notchChars[i] = notch.get(i);
+		return notchChars;
 	}
 	
 	/**
@@ -74,8 +110,14 @@ public class Rotor {
 	/**
 	 * Rotate the rotor
 	 */
-	public void rotate(){
+	public boolean rotate(){
+		
+		// If can't rotate
+		if(!canRotate())
+			return false;
+		
 		rotate = (rotate + 1) % 26;
+		return true;
 	}
 	
 	/**
@@ -103,11 +145,11 @@ public class Rotor {
 	 * Set rotor
 	 * @param rotor
 	 */
-	public void setRotor(String[] rotor){
-		this.notch = rotor[1].charAt(0);
+	public void setRotor(String map, List<Character> notch){
+		this.notch = notch;
 		for (int i = 0; i < 26; i++){
 			int from = (char) ('A' + i);
-			int to = rotor[0].charAt(i);
+			int to = map.charAt(i);
 			rotorOut[i] = from < to ? to - from : (26 - (from - to)) % 26;
 			rotorIn[ (i + rotorOut[i]) % 26] = rotorOut[i];
 		}
